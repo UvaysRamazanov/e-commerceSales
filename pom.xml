@@ -8,6 +8,12 @@
         <version>3.5.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
+    <modules>
+        <module>core</module>
+        <module>product-service</module>
+    </modules>
+
     <groupId>byRamazanov</groupId>
     <artifactId>e-commerceSales</artifactId>
     <version>0.0.1-SNAPSHOT</version>
