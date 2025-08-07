@@ -5,11 +5,9 @@ import byramazanov.orderservice.dto.OrderHistory;
 import byramazanov.orderservice.jpa.entity.OrderHistoryEntity;
 import byramazanov.orderservice.jpa.repository.OrderHistoryRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,20 +18,24 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
 
     @Override
     public void add(UUID orderId, OrderStatus orderStatus) {
-        OrderHistoryEntity entity = new OrderHistoryEntity();
-        entity.setOrderId(orderId);
-        entity.setStatus(orderStatus);
-        entity.setCreatedAt(new Timestamp(new Date().getTime()));
+        OrderHistoryEntity entity = OrderHistoryEntity.builder()
+                .orderId(orderId)
+                .status(orderStatus)
+                .createdAt(new Timestamp(System.currentTimeMillis()))
+                .build();
+
         orderHistoryRepository.save(entity);
     }
 
     @Override
     public List<OrderHistory> findByOrderId(UUID orderId) {
-        var entities = orderHistoryRepository.findByOrderId(orderId);
-        return entities.stream().map(entity -> {
-            OrderHistory orderHistory = new OrderHistory();
-            BeanUtils.copyProperties(entity, orderHistory);
-            return orderHistory;
-        }).toList();
+        return orderHistoryRepository.findByOrderId(orderId).stream()
+                .map(entity -> OrderHistory.builder()
+                        .id(entity.getId())
+                        .orderId(entity.getOrderId())
+                        .status(entity.getStatus())
+                        .createdAt(entity.getCreatedAt())
+                        .build())
+                .toList();
     }
 }

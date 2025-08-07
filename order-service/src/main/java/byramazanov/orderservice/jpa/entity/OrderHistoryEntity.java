@@ -2,8 +2,7 @@ package byramazanov.orderservice.jpa.entity;
 
 import byramazanov.core.types.OrderStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -12,6 +11,9 @@ import java.util.UUID;
 @Entity
 @Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class OrderHistoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

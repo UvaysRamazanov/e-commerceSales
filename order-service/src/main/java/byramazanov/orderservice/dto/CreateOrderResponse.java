@@ -1,10 +1,7 @@
 package byramazanov.orderservice.dto;
 
 import byramazanov.core.types.OrderStatus;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -12,6 +9,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class CreateOrderResponse {
     private UUID orderId;
     private UUID customerId;

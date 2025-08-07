@@ -25,13 +25,21 @@ public class OrdersController {
     @PostMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
     public CreateOrderResponse placeOrder(@RequestBody @Valid CreateOrderRequest request) {
-        var order = new Order();
-        BeanUtils.copyProperties(request, order);
+        Order order = Order.builder()
+                .customerId(request.getCustomerId())
+                .productId(request.getProductId())
+                .productQuantity(request.getProductQuantity())
+                .build();
+
         Order createdOrder = orderService.placeOrder(order);
 
-        var response = new CreateOrderResponse();
-        BeanUtils.copyProperties(createdOrder, response);
-        return response;
+        return CreateOrderResponse.builder()
+                .orderId(createdOrder.getOrderId())
+                .customerId(createdOrder.getCustomerId())
+                .productId(createdOrder.getProductId())
+                .productQuantity(createdOrder.getProductQuantity())
+                .status(createdOrder.getStatus())
+                .build();
     }
 
     @GetMapping("/{orderId}/history")
@@ -40,6 +48,7 @@ public class OrdersController {
         return orderHistoryService.findByOrderId(orderId).stream().map(orderHistory -> {
             OrderHistoryResponse orderHistoryResponse = new OrderHistoryResponse();
             BeanUtils.copyProperties(orderHistory, orderHistoryResponse);
+            // todo Заменить copyProperties на MapStruct (на будущее)
             return orderHistoryResponse;
         }).toList();
     }

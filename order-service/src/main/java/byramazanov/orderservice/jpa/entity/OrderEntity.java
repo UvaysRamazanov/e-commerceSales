@@ -2,15 +2,16 @@ package byramazanov.orderservice.jpa.entity;
 
 import byramazanov.core.types.OrderStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
 @Table(name = "orders")
 @Entity
-@Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

@@ -1,6 +1,5 @@
 package byramazanov.orderservice.dto;
 
-
 import byramazanov.core.types.OrderStatus;
 import lombok.Getter;
 import lombok.Setter;
