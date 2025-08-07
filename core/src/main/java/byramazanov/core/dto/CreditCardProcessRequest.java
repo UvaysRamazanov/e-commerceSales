@@ -3,6 +3,7 @@ package byramazanov.core.dto;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -12,7 +13,7 @@ import java.math.BigInteger;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreditCardProcessRequest {
-    @NotNull
+    @org.jetbrains.annotations.NotNull
     @Positive
     private BigInteger creditCardNumber;
 
