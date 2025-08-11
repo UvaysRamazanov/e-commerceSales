@@ -1,6 +1,7 @@
 package byramazanov.paymentsservice.jpa.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,16 +17,27 @@ public class PaymentEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "order_id")
+    @NotNull(message = "Order ID cannot be null")
+    @Column(name = "order_id", nullable = false)
     private UUID orderId;
 
-    @Column(name = "product_id")
+    @NotNull(message = "Product ID cannot be null")
+    @Column(name = "product_id", nullable = false)
     private UUID productId;
 
-    @Column(name = "product_price")
+    @NotNull(message = "Product price cannot be null")
+    @Positive(message = "Product price must be positive")
+    @Digits(integer = 10, fraction = 0, message = "Invalid price format")
+    @Min(value = 1, message = "Minimum productPrice is 1")
+    // @Max
+    @Column(name = "product_price", precision = 12, scale = 2, nullable = false)
     private BigDecimal productPrice;
 
-    @Column(name = "product_quantity")
+    @NotNull(message = "Product quantity cannot be null")
+    @Min(value = 1, message = "Minimum quantity is 1")
+    // @Max(value = ?, message = "Maximum quantity is ?") // todo в соответствии с бизнес логикой
+    @Column(name = "product_quantity", nullable = false)
+    @Digits(integer = 10, fraction = 0, message = "Invalid price format")
     private Integer productQuantity;
 
 }

@@ -26,3 +26,5 @@ public class ProductEntity {
     private BigDecimal price;
 
 }
+
+// todo добавить валидацию

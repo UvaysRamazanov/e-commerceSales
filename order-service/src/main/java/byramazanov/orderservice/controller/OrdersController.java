@@ -22,6 +22,7 @@ public class OrdersController {
     private final OrderService orderService;
     private final OrderHistoryService orderHistoryService;
 
+    // Создание заказа (ордера)
     @PostMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
     public CreateOrderResponse placeOrder(@RequestBody @Valid CreateOrderRequest request) {
@@ -42,13 +43,15 @@ public class OrdersController {
                 .build();
     }
 
+    // Проверка истории статуса заказа
     @GetMapping("/{orderId}/history")
     @ResponseStatus(HttpStatus.OK)
-    public List<OrderHistoryResponse> getOrderHistory(@PathVariable UUID orderId) {
+    public List<OrderHistoryResponse> getOrderHistory(
+            @PathVariable UUID orderId) {
         return orderHistoryService.findByOrderId(orderId).stream().map(orderHistory -> {
             OrderHistoryResponse orderHistoryResponse = new OrderHistoryResponse();
             BeanUtils.copyProperties(orderHistory, orderHistoryResponse);
-            // todo Заменить copyProperties на MapStruct (на будущее)
+            // todo Заменить copyProperties на MapStruct (на будущее) + builder в OrderHistoryResponse
             return orderHistoryResponse;
         }).toList();
     }

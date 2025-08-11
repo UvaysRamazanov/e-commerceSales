@@ -4,7 +4,7 @@ import byramazanov.core.types.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.UUID;
 
 @Table(name = "orders_history")
@@ -26,5 +26,5 @@ public class OrderHistoryEntity {
     private OrderStatus status;
 
     @Column(name = "created_at")
-    private Timestamp createdAt;
+    private Instant createdAt;
 }

@@ -1,5 +1,6 @@
 package byramazanov.orderservice.dto;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -14,13 +15,15 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateOrderRequest {
-    @NotNull
+    @NotNull(message = "Customer ID cannot be null")
     private UUID customerId;
 
-    @NotNull
+    @NotNull(message = "Product ID cannot be null")
     private UUID productId;
 
-    @NotNull
-    @Positive
+    @NotNull(message = "Quantity cannot be null")
+    @Positive(message = "Quantity must be positive")
+    @Min(value = 1, message = "Minimum quantity is 1")
+    // todo Добавить аннотацию @Max в соответствии с бизнес-логикой проекта
     private Integer productQuantity;
 }

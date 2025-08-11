@@ -4,8 +4,10 @@ import byramazanov.core.dto.Payment;
 import byramazanov.paymentsservice.jpa.entity.PaymentEntity;
 import byramazanov.paymentsservice.jpa.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -14,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class PaymentServiceImpl implements PaymentService {
     public static final String SAMPLE_CREDIT_CARD_NUMBER = "374245455400126";
     private final PaymentRepository paymentRepository;
@@ -35,8 +38,21 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Payment> findAll() {
-        return paymentRepository.findAll().stream().map(entity -> new Payment(entity.getId(), entity.getOrderId(), entity.getProductId(), entity.getProductPrice(), entity.getProductQuantity())
-        ).collect(Collectors.toList());
+        return paymentRepository.findAll().stream()
+                .map(this::mapToPaymentDto)
+                .collect(Collectors.toList());
     }
+
+    private Payment mapToPaymentDto(PaymentEntity entity) {
+        return Payment.builder()
+                .id(entity.getId())
+                .orderId(entity.getOrderId())
+                .productId(entity.getProductId())
+                .productPrice(entity.getProductPrice())
+                .productQuantity(entity.getProductQuantity())
+                .build();
+    }
+
 }
